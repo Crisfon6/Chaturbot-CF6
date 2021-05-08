@@ -13,20 +13,17 @@ with  open(f'{sys.path[0]}/settings.json') as settings_file:
 
 fake_agents = fake_agents['browsers']['chrome']
 
-# In[2]:
+
 #n_creation = number of proxies by thread
 #number of browsers = n_creation*4
 def workerCreateBot(n_creation):
     colnames = ['USER','PASSWORD']
-    accounts= pd.read_csv(f'{sys.path[0]}/accounts.csv',sep=';',skiprows=n_creation*20,nrows=20*(n_creation+1),names=colnames, header=None)
+    accounts= pd.read_csv(f'{sys.path[0]}/accounts.csv',sep=';',skiprows=n_creation*5,nrows=5*(n_creation+1),names=colnames, header=None)
     proxies = settings['proxies'][n_creation*5:(5*(n_creation+1))]
     models_csv= f'{sys.path[0]}/models.csv'
-    bot = Bot(settings['base_url'] , settings['bot_name'],fake_agents,proxies,accounts,models_csv)
-    # print('-'*100)
-    
-    # print(bot.accounts)
-    # print(type(bot.accounts))
-    # print('-'*100)
+    use_four = True
+    bot = Bot(settings['base_url'] , settings['bot_name'],fake_agents,proxies,accounts,models_csv, True)
+  
     bot.openBrowser()
     print('-'*100)
     print(bot.browsers)
@@ -42,25 +39,11 @@ def workerCreateBot(n_creation):
         sleep(randint(20,40))
         bot.detect_captcha()
 
-  
-
-# logging.basicConfig(
-#     level=logging.DEBUG,
-#     format='(%(threadName)-10s) %(message)s',
-# )
-
-
-
 threads= []
-for i in range(int(settings['n_accounts']/20)):
+for i in range(int(settings['n_accounts']/5)):
     t = threading.Thread(target=workerCreateBot,args=(i,))
     t.start()
     threads.append(t)
 for t in threads:
     t.join()
-# main_thread = threading.main_thread()
-# for t in threading.enumerate():
-#     if t is main_thread:
-#         continue
-#     logging.debug('joining %s', t.getName())
-#     t.join()
+

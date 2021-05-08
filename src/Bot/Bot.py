@@ -10,19 +10,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-# from proxy_checker import ProxyChecker
+
 from time import sleep
 from itertools import cycle
 
 class Bot:
-    def __init__(self, base_url, name_bot, fake_agent,proxies,accounts,models_csv):
+    def __init__(self, base_url, name_bot, fake_agent,proxies,accounts,models_csv,use_four):
         print('bot init')
         self.base_url = base_url
         self.bot_name = name_bot
         self.models_csv =models_csv
-        self.create_folder_bot()
-        
         self.accounts = accounts
+        self.user_four = use_four
+        
         print('accounts loaded')
         self.models = self.load_models()
         print('models loaded')
@@ -34,26 +34,8 @@ class Bot:
         self.count = 0
 
     def counter(self):
-        self.count= self.count+1
-    def create_folder_bot(self):
-        print('creating folder...')
-        current_path = os.getcwd()
-        path_name = f'{current_path}/data/{self.bot_name}'
-        try:
-            os.mkdir(path_name)
-        except  OSError:
-            print("Creation of the directory %s failed" % path_name)
-        else:
-            print("Successfully created the directory %s" % path_name)
-            print('folder created...')
-            return path_name
-
-
-
- 
-
-    def load_models(self):
-        # models = pd.read_csv(f'{sys.path[0]}/data/{self.bot_name}/models.csv',nrows=5)
+        self.count= self.count+1 
+    def load_models(self):      
         models = pd.read_csv(self.models_csv ,nrows=5)
         return models['account_name'].to_list()
 
@@ -62,16 +44,24 @@ class Bot:
         final_list_browser = []#10
         for _ in self.proxies:
             final_list_browser.append([])
-        
-        browser_by_list=4
+        if (self.use_four):
+
+            browser_by_list=4
+        else:
+
+            browser_by_list=1
         for _ in range(browser_by_list):
             for idx,proxy in  enumerate(self.proxies):    
                 try:                  
-                    final_list_browser[idx].append(Browser(self.chrome_driver_path,self.accounts.iloc[self.count].USER,self.accounts.iloc[self.count].PASSWORD,self.base_url,proxy,next(self.fake_agents),self.models) )                
+                    username = self.accounts.iloc[self.count].USER
+                    password = self.accounts.iloc[self.count].PASSWORD                    
+                    fake_ag =next(self.fake_agents)
+
+                    final_list_browser[idx].append(Browser(self.chrome_driver_path,username,password,self.base_url,proxy,fake_ag,self.models))                
                     self.counter()                               
                 except Exception as err:
                     print(f'error loading browsers {self.count}',err)
-        self.browsers =    final_list_browser     
+        self.browsers = final_list_browser     
         print(f'--------------------------Browsers opened : {len(self.browsers)*len(self.browsers[0])}----------------')
 
     def simulate_be_human(self):
