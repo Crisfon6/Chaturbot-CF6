@@ -49,7 +49,7 @@ class Bot:
 
     def show_models(self):
         print('Start show models')
-        for i in self.models:
+        for i,data in enumerate(self.models):
             try:
                 self.browser.show_models(i)
             except:

@@ -11,10 +11,10 @@ class Setup:
         colnamesAcc = ['USER','PASSWORD']
         colnamesModel = ['MODEL']
         colnamesProxies = ['PROXY']
-        self.proxies =pd.read_csv(proxies_path,sep=";",names=colnamesProxies, header=None)
-        self.models = pd.read_csv(models_path,sep=";",names=colnamesModel, header=None)
+        self.proxies =pd.read_csv(proxies_path,sep=";")
+        self.models = pd.read_csv(models_path,sep=";")
         self.models =self.models['MODEL'].to_list()
-        self.accounts = pd.read_csv(accounts_path,sep=";",names=colnamesAcc, header=None)
+        self.accounts = pd.read_csv(accounts_path,sep=";")
         self.awaitBrowser = await_browser
         self.oneproxybybrowser = oneproxybybrowser
         self.fake_agents = self.loadFakeAg()
