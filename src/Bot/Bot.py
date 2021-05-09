@@ -21,7 +21,7 @@ class Bot:
         self.bot_name = name_bot
         self.models_csv =models_csv
         self.accounts = accounts
-        self.user_four = use_four
+        self.use_four = use_four
         
         print('accounts loaded')
         self.models = self.load_models()
@@ -44,12 +44,7 @@ class Bot:
         final_list_browser = []#10
         for _ in self.proxies:
             final_list_browser.append([])
-        if (self.use_four):
-
-            browser_by_list=4
-        else:
-
-            browser_by_list=1
+        browser_by_list = self.use_four
         for _ in range(browser_by_list):
             for idx,proxy in  enumerate(self.proxies):    
                 try:                  
