@@ -36,10 +36,9 @@ class Browser:
             "proxyType": "MANUAL",
         }
         # webdriver.DesiredCapabilities.CHROME['acceptSslCerts']=True
-        print(webdriver.DesiredCapabilities.CHROME)
-
+        
         options.add_argument("user-agent="+self.fake_agent)
-
+        
 
         # options.add_experimental_option('prefs', {'intl.accept_languages': 'en,en_US'})  # set language
         # options.add_argument(      '--no-sandbox')  # required when running as root user. otherwise you would get no sandbox errors.
@@ -53,18 +52,12 @@ class Browser:
         # #options.add_argument('--headless')
         # options.add_argument('--no-sandbox')
         # options.add_argument('--disable-dev-shm-usage')
+        
         self.driver = webdriver.Chrome(chrome_options=options, executable_path=self.driver_path)
         
         self.driver.get(self.base_url)
        
     def simulate_be_human_browser(self,first=False):
-       
-        #if (first==True):
-         #   try:
-          #      WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'I AGREE')]")))\
-           #             .click()  # close modal start i agree
-           # except Exception as err:
-            #    print('error location I Agree button: ',err)
         try:
             self.driver.find_element_by_xpath("/html/body/div/div[2]/h1[contains(text(),'Something went wrong.')]")
             

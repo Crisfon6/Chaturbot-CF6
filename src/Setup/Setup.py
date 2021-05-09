@@ -17,19 +17,17 @@ class Setup:
         self.accounts = pd.read_csv(accounts_path,sep=";",names=colnamesAcc, header=None)
         self.awaitBrowser = await_browser
         self.oneproxybybrowser = oneproxybybrowser
-        self.fake_agents = ''
-        self.settings = ''
-        self.loadJson()
+        self.fake_agents = self.loadFakeAg()
+        
+        
         self.threads= []
         self.baseUrl = "https://www.chaturbate.com/"
 
-    def loadJson(self):
+    def loadFakeAg(self):
         with open(f'{sys.path[0]}/fakeuseragent.json')as f:
-            fake_agents = json.load(f)
-        with  open(f'{sys.path[0]}/settings.json') as settings_file:
-            self.settings =json.load(settings_file)
-
-        self.fake_agents = fake_agents['browsers']['chrome']
+            fake_ag = json.load(f)      
+            fakeAgents = fake_ag['browsers']['chrome']
+            return fakeAgents
 
 
     #n_creation = number of proxies by thread
@@ -37,35 +35,47 @@ class Setup:
     def workerCreateBot(self,proxy,account):          
         print('WORKER')
         bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, self.oneproxybybrowser)
-        print(bot)
+        
+        sleep(float(self.awaitBrowser))
         bot.openBrowser()
         print('-'*100)
         print(bot.browser)
-    #     print(bot.proxy)
-    #     print('-'*100)
-    #     bot.login()
-    # #    bot.simulate_be_human()
-    #     bot.models
-    #     bot.show_models()
-    #     sleep(randint(4,10))
-    #     bot.detect_captcha()
-    #     while True:
-    #         sleep(randint(20,40))
-    #         bot.detect_captcha()
+        print(bot.proxy)
+        print('-'*100)
+        bot.login()
+    #    bot.simulate_be_human()
+        bot.models
+        bot.show_models()
+        sleep(randint(4,10))
+        bot.detect_captcha()
+        while True:
+            sleep(randint(20,40))
+            bot.detect_captcha()
 
     def run(self):
-        n_accounts = 5
+        n_accounts = 4
         print('RUNNING')
-
+        proxyCount = 0
         if (self.oneproxybybrowser==True):
-            for i,data in enumerate(self.proxies.values):                
-                proxy = data
+            for i,data in enumerate(self.proxies.values):     
+                
+                proxy = data[0]
                 account = self.accounts.values[i]
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
                 t.start()
                 self.threads.append(t)
         else:
-            pass
+            for i,data in enumerate(self.accounts.values): 
+                if(i%4==0 and i!=0):
+                    proxyCount+=1     
+                proxy = self.proxies.values[proxyCount][0]
+                account = data
+                print('ACCOUNT',account)
+                print('PROXY',proxy)
+                t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
+                t.start()
+                self.threads.append(t)          
+                
         for t in self.threads:
             t.join()
 
