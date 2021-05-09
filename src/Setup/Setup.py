@@ -13,6 +13,7 @@ class Setup:
         colnamesProxies = ['PROXY']
         self.proxies =pd.read_csv(proxies_path,sep=";",names=colnamesProxies, header=None)
         self.models = pd.read_csv(models_path,sep=";",names=colnamesModel, header=None)
+        self.models =self.models['MODEL'].to_list()
         self.accounts = pd.read_csv(accounts_path,sep=";",names=colnamesAcc, header=None)
         self.awaitBrowser = await_browser
         self.oneproxybybrowser = oneproxybybrowser
@@ -34,33 +35,35 @@ class Setup:
     #n_creation = number of proxies by thread
     #number of browsers = n_creation*4
     def workerCreateBot(self,proxy,account):          
-        use_four = True        
-        bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, True)
-    
+        print('WORKER')
+        bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, self.oneproxybybrowser)
+        print(bot)
         bot.openBrowser()
         print('-'*100)
-        print(bot.browsers)
-        print(bot.proxies)
-        print('-'*100)
-        bot.login()
-    #    bot.simulate_be_human()
-        bot.models
-        bot.show_models()
-        sleep(randint(4,10))
-        bot.detect_captcha()
-        while True:
-            sleep(randint(20,40))
-            bot.detect_captcha()
+        print(bot.browser)
+    #     print(bot.proxy)
+    #     print('-'*100)
+    #     bot.login()
+    # #    bot.simulate_be_human()
+    #     bot.models
+    #     bot.show_models()
+    #     sleep(randint(4,10))
+    #     bot.detect_captcha()
+    #     while True:
+    #         sleep(randint(20,40))
+    #         bot.detect_captcha()
 
     def run(self):
         n_accounts = 5
+        print('RUNNING')
+
         if (self.oneproxybybrowser==True):
-            for i in range(self.proxies):
-                proxy = self.proxies.values[i]
+            for i,data in enumerate(self.proxies.values):                
+                proxy = data
                 account = self.accounts.values[i]
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
                 t.start()
-                self.threads(t)
+                self.threads.append(t)
         else:
             pass
         for t in self.threads:

@@ -15,18 +15,19 @@ from time import sleep
 from itertools import cycle
 
 class Bot:
-    def __init__(self, base_url, fake_agent,proxy,account,models_csv,use_four):
+    def __init__(self, base_url, fake_agent,proxy,account,models,use_four):
         print('bot init')
         self.base_url = base_url
         
-        self.models_csv =models_csv
+        
         self.account = account
         self.use_four = use_four
         
         print('accounts loaded')
-        self.models = self.load_models()
+        self.models = models
         print('models loaded')
         self.browsers = []
+        self.browser = ''
         print('finished load ..')
         self.chrome_driver_path = f'{sys.path[0]}/drivers/chromedriver'        
         self.fake_agents = cycle(fake_agent)
@@ -34,10 +35,7 @@ class Bot:
         self.count = 0
 
     def counter(self):
-        self.count= self.count+1 
-    def load_models(self):      
-        models = pd.read_csv(self.models_csv ,nrows=5)
-        return models['account_name'].to_list()
+        self.count= self.count+1     
 
     def openBrowser(self,):
         print('opening browsers')
