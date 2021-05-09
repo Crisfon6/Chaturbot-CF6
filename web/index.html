@@ -13,45 +13,52 @@
 <body>
     <div class="container">
         <h1 class="text-center mt-3">CHATURBOTCF6</h1>
-
+        <!-- proxies -->
         <form class="row g-3">
-
-            <div>
-                <label for="proxies" class="form-label">Proxies</label>
-                <input class="form-control form-control-lg" id="proxies" type="file">
+            <div class="d-grid gap-2">
+                <label for="proxies">Proxies</label>
+                <button id="proxies" type="button" class="btn btn-success btn-lg  btn-block mt-3 ">Seleccionar Archivo</button>
+                <strong id="errors-proxies"></strong>
             </div>
+
 
 
             <!-- credentials -->
-            <div>
-                <label for="credentials" class="form-label">Credenciales</label>
-                <input class="form-control form-control-lg" id="credentials" type="file">
+            <div class="d-grid gap-2">
+                <label for="credentials">Crendentials</label>
+                <button id="credentials" type="button" class="btn btn-success btn-lg  btn-block mt-3 ">Seleccionar Archivo</button>
+                <strong id="errors-credentials"></strong>
             </div>
 
+
+
             <!-- models -->
-            <div>
-                <label for="models" class="form-label">Modelos</label>
-                <input class="form-control form-control-lg" id="models" type="file">
+            <div class="d-grid gap-2">
+                <label for="models">Modelos</label>
+                <button id="models" type="button" class="btn btn-success btn-lg  btn-block mt-3 ">Seleccionar Archivo</button>
+                <strong id="errors-models"></strong>
             </div>
+
 
 
             <!-- ammount proxy -->
             <div class="form-check mt-3">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="oneProxyByBrowser">
+
+                <input id="amountproxies" class="form-check-input" type="radio" name="flexRadioDefault" id="oneProxyByBrowser" value="1">
                 <label class="form-check-label" for="oneProxyByBrowser">
               1 proxy por navegador
             </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="fourProxyByBrowser" checked>
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="fourProxyByBrowser" value="4">
                 <label class="form-check-label" for="fourProxyByBrowser">
               1 proxy por 4 navegadores
             </label>
             </div>
             <!-- time between browser -->
             <div class="input-group mb-3">
-                <span class="input-group-text" id="timeawait">#</span>
-                <input type="number" class="form-control" placeholder="Tiempo entre navegador" aria-label="Tiempo entre navegador" aria-describedby="basic-addon1">
+                <span class="input-group-text">#</span>
+                <input id="timeawait" type="number" class="form-control" placeholder="Tiempo entre navegador en segundos" aria-label="Tiempo entre navegador" aria-describedby="Tiempo entre navegador">
             </div>
             <!-- btn send -->
             <div class="d-grid gap-2">
