@@ -126,12 +126,12 @@ class Browser:
             except Exception as err:
                 print(f'error loading {self.username}. message: {err}')
 
-    def show_models(self, idx_model):
+    def show_models(self, model):
 #         print(idx_model)
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         base_url= 'https://chaturbate.com/'       
         
-        url = f'{base_url}/{self.models[idx_model]}'
+        url = f'{base_url}/{model}'
         self.driver.get(url)        
         sleep(randint(15,30))
         
