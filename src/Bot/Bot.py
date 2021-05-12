@@ -53,7 +53,7 @@ class Bot:
             try:
                 self.browser.show_models(i)
             except:
-                rint(f'Error showing model',i)
+                print(f'Error showing model',i)
         print('Finish show models')
     
         

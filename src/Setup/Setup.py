@@ -5,23 +5,56 @@ import logging
 import threading
 import pandas as pd
 from random import randint
-
+import json
 class Setup:
-    def __init__(self,proxies_path,models_path,accounts_path,await_browser,oneproxybybrowser):
+    def __init__(self,proxiesPath,modelsPath,accountsPath,await_browser,oneproxybybrowser):
         colnamesAcc = ['USER','PASSWORD']
         colnamesModel = ['MODEL']
         colnamesProxies = ['PROXY']
-        self.proxies =pd.read_csv(proxies_path,sep=";")
-        self.models = pd.read_csv(models_path,sep=";")
-        self.models =self.models['MODEL'].to_list()
-        self.accounts = pd.read_csv(accounts_path,sep=";")
+        self.proxiesPath= proxiesPath
+        self.modelsPath =modelsPath
+        self.accountsPath =accountsPath        
         self.awaitBrowser = await_browser
         self.oneproxybybrowser = oneproxybybrowser
-        self.fake_agents = self.loadFakeAg()
-        
-        
+        self.fake_agents = self.loadFakeAg()      
+        self.readCSV() 
         self.threads= []
         self.baseUrl = "https://www.chaturbate.com/"
+    
+
+    def readCSV(self):
+        if(self.proxiesPath==""):
+            with open('settings.json') as json_file:
+                data = json.load(json_file)
+            self.proxiesPath = data['proxies']
+            self.modelsPath = data['models']
+            self.accountsPath = data['accounts']
+            data ={'proxies':str(self.proxiesPath),
+                     'models':str(self.modelsPath),
+                    'accounts':str(self.accountsPath)
+                    }
+        else:
+            data ={'proxies':str(self.proxiesPath.name),
+                     'models':str(self.modelsPath.name),
+                    'accounts':str(self.accountsPath.name)
+                    }
+        with open('settings.json', 'w') as outfile:
+            json.dump(data, outfile)
+
+        self.proxies =pd.read_csv(self.proxiesPath,sep=";")
+        self.models = pd.read_csv(self.modelsPath,sep=";")
+        self.models =self.models['MODEL'].to_list()
+        self.accounts = pd.read_csv(self.accountsPath,sep=";")
+
+    def saveLastSetup(self):     
+        
+        
+        data ={'proxies':str(self.proxiesPath.name),
+        'models':str(self.modelsPath.name),
+        'accounts':str(self.accountsPath.name)
+        }
+        with open('settings.json', 'w') as outfile:
+            json.dump(data, outfile)
 
     def loadFakeAg(self):
         with open(f'{sys.path[0]}/fakeuseragent.json')as f:
@@ -36,7 +69,7 @@ class Setup:
         print('WORKER')
         bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, self.oneproxybybrowser)
         
-        sleep(float(self.awaitBrowser))
+        
         bot.openBrowser()
         print('-'*100)
         print(bot.browser)
@@ -56,12 +89,14 @@ class Setup:
         n_accounts = 4
         print('RUNNING')
         proxyCount = 0
+        # self.saveLastSetup()
         if (self.oneproxybybrowser==True):
             for i,data in enumerate(self.proxies.values):     
                 
                 proxy = data[0]
                 account = self.accounts.values[i]
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
+                sleep(float(self.awaitBrowser))
                 t.start()
                 self.threads.append(t)
         else:
@@ -73,6 +108,7 @@ class Setup:
                 print('ACCOUNT',account)
                 print('PROXY',proxy)
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
+                sleep(float(self.awaitBrowser))
                 t.start()
                 self.threads.append(t)          
                 
