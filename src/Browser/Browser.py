@@ -54,8 +54,13 @@ class Browser:
         # options.add_argument('--disable-dev-shm-usage')
         
         self.driver = webdriver.Chrome(chrome_options=options, executable_path=self.driver_path)
-        
-        self.driver.get(self.base_url)
+        try:
+            self.driver.get(self.base_url)
+        except :
+            print(f"proxy {self.proxy} no work")
+
+
+
        
     def simulate_be_human_browser(self,first=False):
         try:

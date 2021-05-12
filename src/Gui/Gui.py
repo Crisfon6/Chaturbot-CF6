@@ -176,7 +176,7 @@ class Gui:
         upld = Button(
             self.ws, 
 
-            text='Upload Files', 
+            text='Start', 
 
             command=self.uploadFiles
             )
