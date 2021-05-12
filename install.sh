@@ -1,4 +1,5 @@
 sudo apt-get update --y
+sudo chmod +x ./drivers/chromedriver
 
 sudo apt install python3-tk --y
 pip3 install tk
