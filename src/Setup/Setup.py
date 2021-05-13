@@ -104,8 +104,7 @@ class Setup:
                 if(i%4==0 and i!=0):
                     proxyCount+=1     
                 proxy = self.proxies.values[proxyCount][0]
-                account = data
-               
+                account = data               
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
                 sleep(float(self.awaitBrowser))
                 t.start()
@@ -113,13 +112,4 @@ class Setup:
                 
         for t in self.threads:
             t.join()
-
-
-        # for i in range(int(settings['n_accounts']/n_accounts)):
-        #     settings['proxies'][n_creation*n_accounts:(n_accounts*(n_creation+1))]
-        #     t = threading.Thread(target=self.workerCreateBot,args=(i,))
-        #     t.start()
-        #     threads.append(t)
-        # for t in threads:
-        #     t.join()
 
