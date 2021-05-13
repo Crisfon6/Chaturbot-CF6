@@ -105,8 +105,7 @@ class Setup:
                     proxyCount+=1     
                 proxy = self.proxies.values[proxyCount][0]
                 account = data
-                print('ACCOUNT',account)
-                print('PROXY',proxy)
+               
                 t = threading.Thread(target=self.workerCreateBot,args=(proxy,account))
                 sleep(float(self.awaitBrowser))
                 t.start()
