@@ -29,7 +29,7 @@ class Setup:
             self.proxiesPath = data['proxies']
             self.modelsPath = data['models']
             self.accountsPath = data['accounts']
-            self.awaitBrowser = data['await_browser']
+            self.awaitBrowser = float(data['await_browser'])
 
             data ={'proxies':str(self.proxiesPath),
                      'models':str(self.modelsPath),
