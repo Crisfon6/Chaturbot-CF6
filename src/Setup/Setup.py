@@ -29,14 +29,18 @@ class Setup:
             self.proxiesPath = data['proxies']
             self.modelsPath = data['models']
             self.accountsPath = data['accounts']
+            self.awaitBrowser = data['await_browser']
+
             data ={'proxies':str(self.proxiesPath),
                      'models':str(self.modelsPath),
-                    'accounts':str(self.accountsPath)
+                    'accounts':str(self.accountsPath),
+                    'awaitBrowser':str(self.awaitBrowser)
                     }
         else:
             data ={'proxies':str(self.proxiesPath.name),
                      'models':str(self.modelsPath.name),
-                    'accounts':str(self.accountsPath.name)
+                    'accounts':str(self.accountsPath.name),
+                    'awaitBrowser':str(self.awaitBrowser)
                     }
         with open('settings.json', 'w') as outfile:
             json.dump(data, outfile)

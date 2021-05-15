@@ -157,11 +157,11 @@ class Gui:
 
         Radiobutton(self.ws, text="Usar 1 proxy por navegador", variable=self.opcion, 
 
-                    value=True, command=self.seleccionar).grid(row=3, column=0)
+                    value=False, command=self.seleccionar).grid(row=3, column=0)
 
         Radiobutton(self.ws, text="Usar 1 proxy por 4 navegadores", variable=self.opcion, 
 
-                    value=False, command=self.seleccionar).grid(row=4, column=0)
+                    value=True, command=self.seleccionar).grid(row=4, column=0)
 
 
         Label(self.ws, text='Segundos de esperar por navegador', foreground='black').grid(row=5, column=0, pady=10)
