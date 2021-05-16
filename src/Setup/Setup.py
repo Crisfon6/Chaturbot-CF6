@@ -93,7 +93,9 @@ class Setup:
         n_accounts = 4
         print('RUNNING')
         proxyCount = 0
-        # self.saveLastSetup()
+        self.saveLastSetup()
+        if(self.awaitBrowser==''):
+            self.awaitBrowser = 2
         if (self.oneproxybybrowser==True):
             for i,data in enumerate(self.proxies.values):     
                 
