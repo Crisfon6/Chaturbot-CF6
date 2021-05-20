@@ -16,10 +16,9 @@ class Setup:
         self.accountsPath =accountsPath        
         self.awaitBrowser = await_browser
         self.fourproxybybrowser = fourproxybybrowser
-        # if(self.fourproxybybrowser==''):
-        #     self.fourproxybybrowser = 0
-        #     print('ONEPROXY',type(self.fourproxybybrowser)        )
-        # print('ONEPROXY',self.fourproxybybrowser      )
+        if(self.fourproxybybrowser==''):
+            self.fourproxybybrowser = 0
+
         self.fake_agents = self.loadFakeAg()      
         self.readCSV() 
         self.threads= []
