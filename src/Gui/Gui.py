@@ -24,7 +24,7 @@ class Gui:
         self.models_path = ''
 
         self.accounts_path =''
-        self.oneproxybybrowser = ''
+        self.fourproxybybrowser = ''
         self.timeawait =''
 
         self.timeawaitval = ''
@@ -188,10 +188,10 @@ class Gui:
 
 
     def seleccionar(self):        
-        self.oneproxybybrowser = self.opcion.get()
+        self.fourproxybybrowser = self.opcion.get()
     def run(self):        
         self.timeawaitval = self.timeawait.get()
-        Setup(self.proxies_path,self.models_path,self.accounts_path,self.timeawaitval,self.oneproxybybrowser).run()
+        Setup(self.proxies_path,self.models_path,self.accounts_path,self.timeawaitval,self.fourproxybybrowser).run()
         
         
 

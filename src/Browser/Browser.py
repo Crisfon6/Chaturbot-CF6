@@ -28,13 +28,13 @@ class Browser:
     def setup_browser(self):
         options = webdriver.ChromeOptions()
         # user_agent = 'Mozilla/5.0 CK={} (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko'
-
-        webdriver.DesiredCapabilities.CHROME['proxy'] = {
-            "httpProxy": self.proxy,
-            "ftpProxy": self.proxy,
-            "sslProxy": self.proxy,
-            "proxyType": "MANUAL",
-        }
+        options.add_argument('--proxy-server={}'.format(self.proxy))
+        # webdriver.DesiredCapabilities.CHROME['proxy'] = {
+        #     "httpProxy": self.proxy,
+        #     "ftpProxy": self.proxy,
+        #     "sslProxy": self.proxy,
+        #     "proxyType": "MANUAL",
+        # }
         # webdriver.DesiredCapabilities.CHROME['acceptSslCerts']=True
         
         options.add_argument("user-agent="+self.fake_agent)
@@ -54,6 +54,7 @@ class Browser:
         # options.add_argument('--disable-dev-shm-usage')
         
         self.driver = webdriver.Chrome(chrome_options=options, executable_path=self.driver_path)
+        
         try:
             self.driver.get(self.base_url)
         except :

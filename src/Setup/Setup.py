@@ -1,4 +1,4 @@
-from ..Bot.Bot  import Bot
+from ..Bot.Bot import Bot
 import sys, json
 from time import sleep
 import logging
@@ -7,7 +7,7 @@ import pandas as pd
 from random import randint
 import json
 class Setup:
-    def __init__(self,proxiesPath,modelsPath,accountsPath,await_browser,oneproxybybrowser):
+    def __init__(self,proxiesPath,modelsPath,accountsPath,await_browser,fourproxybybrowser):
         colnamesAcc = ['USER','PASSWORD']
         colnamesModel = ['MODEL']
         colnamesProxies = ['PROXY']
@@ -15,7 +15,11 @@ class Setup:
         self.modelsPath =modelsPath
         self.accountsPath =accountsPath        
         self.awaitBrowser = await_browser
-        self.oneproxybybrowser = oneproxybybrowser
+        self.fourproxybybrowser = fourproxybybrowser
+        # if(self.fourproxybybrowser==''):
+        #     self.fourproxybybrowser = 0
+        #     print('ONEPROXY',type(self.fourproxybybrowser)        )
+        # print('ONEPROXY',self.fourproxybybrowser      )
         self.fake_agents = self.loadFakeAg()      
         self.readCSV() 
         self.threads= []
@@ -71,7 +75,7 @@ class Setup:
     #number of browsers = n_creation*4
     def workerCreateBot(self,proxy,account):          
         print('WORKER')
-        bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, self.oneproxybybrowser)
+        bot = Bot(self.baseUrl , self.fake_agents,proxy,account,self.models, self.fourproxybybrowser)
         
         
         bot.openBrowser()
@@ -79,6 +83,7 @@ class Setup:
         print(bot.browser)
         print(bot.proxy)
         print('-'*100)
+       
         bot.login()
     #    bot.simulate_be_human()
         bot.models
@@ -96,7 +101,9 @@ class Setup:
         self.saveLastSetup()
         if(self.awaitBrowser==''):
             self.awaitBrowser = 2
-        if (self.oneproxybybrowser==True):
+        # print('ONE PROXY',self.oneproxybybrowser)
+        if (self.fourproxybybrowser==0):
+            print(self.proxies.values)
             for i,data in enumerate(self.proxies.values):     
                 
                 proxy = data[0]
